@@ -1,3 +1,7 @@
+/*Question
+A customer buys 3 items. Each item has a name, a quantity, and a price per unit. Store all values in variables,
+calculate the total cost for each item and the overall grand total, then print a formatted receipt.*/
+
 package se.lexicon.prac.exercise;
 
 public class Exc3ShoppingReceipt {
