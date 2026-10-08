@@ -30,9 +30,18 @@ Your application must:
 
 ---
 */
+// TC01: Loyalty member, 2 lattes – 15% discount.
+// TC02: Non-member, 6 sandwiches – 10% discount.
+// TC03: Non-member, 1 espresso – No discount.
+// TC05: Non-member, order exactly 150 SEK – No discount.
 
 
 package se.lexicon.lexicon.cafe;
 
+import java.util.Scanner;
+
 public class CafeApp {
+    static void main(){
+
+    }
 }
