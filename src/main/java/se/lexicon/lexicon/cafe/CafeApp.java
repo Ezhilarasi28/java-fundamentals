@@ -123,21 +123,25 @@ public class CafeApp {
                                         IO.println("Invalid input");
                                         return;
         }
-        double subtotalAllPrice = eachItemPrice * quantity;
+        double subtotalAllPrice = eachItemPrice * quantity; //overall total calculation
+        double discount = 0;//next discount calculation
+
 
         if(card.equals("yes")) //. equals is string method compare the text
         {
-            IO.println("Person is applicable for 15% :");
+            discount =subtotalAllPrice * 0.15;
+           // IO.println("Person is applicable for 15% :" + discount =subtotalAllPrice * 0.15);
         }
-        else if(basePrice>=150)
+        else if(subtotalAllPrice>=150)
         {
-            IO.println("person is applicable for 10%");
+            discount =subtotalAllPrice * 0.10;
+           // IO.println("person is applicable for 10%: " + discount =subtotalAllPrice * 0.10);
         }
         else
     {
-        IO. println("User dont get the discount:");
+        discount = 0;
+        //IO. println("User dont get the discount:" + discount =0);
     }
-        double basePrice = unitPrice * quantity;
 
     }
 }
