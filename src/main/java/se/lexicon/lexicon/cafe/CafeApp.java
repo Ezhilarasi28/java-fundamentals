@@ -41,7 +41,40 @@ package se.lexicon.lexicon.cafe;
 import java.util.Scanner;
 
 public class CafeApp {
-    static void main(){
+    static void main()
+    {
+        Scanner username = new Scanner(System.in);
+        IO.println(" **** Welcome to lexiCafe ****");
+
+            IO.println(" " + "--- What is your name?--- " + " ");
+            String name = username.nextLine();
+            IO.println(" Hi " + " " + name + " !!!!! ");
+            IO.println(" Here is the menu ");
+            IO.println("-------------------------");
+            IO.println("        LexiCafe         ");
+            IO.println("-------------------------");
+
+            String item1name = "Espresso ";
+            int itemNum1 = 1;
+            double price1 = 35.00;
+
+            String item2 = "Latte";
+            int itemNum2 =2;
+            double price2 = 70.00;
+
+            String item3 = "Cappuccino";
+            int itemNum3 = 3;
+            double price3 = 79.00;
+
+            String item4 = "sandwich";
+            int itemNum4 = 4;
+            double price4 = 45.00;
+
+            String item5 = "croissant";
+            int itemNum5 = 5;
+            double price5 = 30.00;
+
+
 
     }
 }
