@@ -38,7 +38,7 @@ Your application must:
 
 package se.lexicon.lexicon.cafe;
 
-import java.util.Scanner;
+/*import java.util.Scanner;
 
 public class CafeApp {
     static void main() {
@@ -105,7 +105,7 @@ public class CafeApp {
         IO.println("How many would you like:");
         int quantity = username.nextInt();
 
-        if (quantity <= 0 >) {
+        if (quantity <= 0 ) {
             IO.println("Invalid quantity");
             username.close();
             return;
@@ -117,7 +117,7 @@ public class CafeApp {
         //call calculation methods
         double subtotalAllPrice = calculateSubtotal(eachItemPrice, quantity);
         double discount = calculateDiscount(subtotalAllPrice, card);
-        double priceAfterDiscount(subtotalAllPrice,discount);
+        double priceAfterDiscount =calculatePriceAfterDicount(subtotalAllPrice, discount);
         double vat = calculateVat(priceAfterDiscount);
         double finalPrice = calculateTotal(priceAfterDiscount, vat);
 
@@ -125,72 +125,90 @@ public class CafeApp {
         printReceipt(name, itemName, quantity, subtotalAllPrice, discount, vat, finalPrice);
         username.close();
     }
-        //method1 :display menu
-        static void displayMenu ()
+
+    //method1 :display menu
+    static void displayMenu() {
+        IO.println(" Here is the menu ");
+        IO.println("-----------------------------");
+        IO.println("        LexiCafe         ");
+        IO.println("-----------------------------");
+        IO.println(String.format("%d. %-15s %6.2f SEK", "Espresso", 45));
+        IO.println(String.format("%d. %-15s %6.2f SEK", "Cappuccino", 55));
+        IO.println(String.format("%d. %-15s %6.2f SEK", "Latte", 40.00));
+        IO.println(String.format("%d. %-15s %6.2f SEK", "Croissant", 35.00));
+        IO.println(String.format("%d. %-15s %6.2f SEK", "Sandwich", 60.00));
+        IO.println("-----------------------------");
+
+//method2:Calculate subtotal
+        static double calculateSubtotal(double eachItemPrice,int quantity)
         {
-            IO.println(" Here is the menu ");
-            IO.println("-----------------------------");
-            IO.println("        LexiCafe         ");
-            IO.println("-----------------------------");
-            IO.println(String.format("%d. %-15s %6.2f SEK","Espresso",45 ));
-            IO.println(String.format("%d. %-15s %6.2f SEK", "Cappuccino",55));
-            IO.println(String.format("%d. %-15s %6.2f SEK","Latte",40.00));
-            IO.println(String.format("%d. %-15s %6.2f SEK", "Croissant",35.00));
-            IO.println(String.format("%d. %-15s %6.2f SEK","Sandwich",60.00 ));
-            IO.println("-----------------------------");
-
-
-
-       /* IO.println("Customer  : " + name);
-        IO.println("Item      : " + itemName + " x " + quantity);
-
-        if (discount > 0) {
-            IO.println(String.format("Discount  : -%.2f SEK", discount));
-            IO.println(String.format("Subtotal  : %.2f SEK", subtotalAllPrice));
-            IO.println(String.format("VAT       : %.2f SEK", vat));
-            IO.println(String.format("TOTAL     : %.2f SEK", finalPrice));
-
-
-            double subtotalAllPrice = calculateSuntotal(eachItemPrice * quantity; //overall total calculation
-        double discount = 0; //next discount calculation
-
-
-        if(card.equalsIgnoreCase("yes")) // string method compare the text
-        {
-            discount =subtotalAllPrice * 0.15;
-           // IO.println("Person is applicable for 15% :" );
-        }
-        else if(subtotalAllPrice >150)
-        {
-            discount =subtotalAllPrice * 0.10;
-        }
-        else
-    {
-        discount = 0;
-
-    }
-        double priceAfterDiscount = subtotalAllPrice - discount;
-        double vat = priceAfterDiscount * 0.12;
-        double finalPrice = priceAfterDiscount + vat;
-
-        static double calculateSubtotal(double eachItemPrice, int quantity)
-            {
             return eachItemPrice * quantity;
+        }
+
+//methood3: calculate discount
+        static double calculateDiscount(double subtotalAllPrice, String card)
+        {
+            if (card.equalsIgonreCase("yes")) {
+                return subtotalAllPrice * 0.15;
+
+            } else if (subtotalAllPrice > 150) {
+                return subtotalAllPrice * 0.10;
+                {
+                        else{
+                    return 0;
+                }
+                }
+                //price after discount method:4
+                static double calculatePriceAfterDiscount(double subtotalAllPrice,
+                double discount){
+                    return subtotalAllPrice - discount;
+
+                }
+                //method:5 Calculate VAT
+                static double calculateVat ( double priceAfterDiscount)
+                {
+                    return priceAfterDiscount * 0.12;
+
+                }
+                // METHOD 6: Calculate final total
+                static double calculateTotal ( double priceAfterDiscount, double vat){
+
+                    return priceAfterDiscount + vat;
+                }
+
+                // METHOD 7: Print receipt
+                static void printReceipt
+                (String name, String itemName,
+                int quantity, double subtotalAllPrice,
+                double discount, double vat,
+                double finalPrice){
+
+                    IO.println("--------------------------------");
+                    IO.println("         LexiCafe Receipt");
+                    IO.println("--------------------------------");
+
+                    IO.println("Customer : " + name);
+                    IO.println("Item     : " + itemName + " x " + quantity);
+
+                    IO.println(String.format("Subtotal : %.2f SEK", subtotalAllPrice));
+
+                    if (discount > 0) {
+                        IO.println(String.format("Discount : -%.2f SEK", discount));
+                    }
+
+                    IO.println(String.format("VAT (12%%): %.2f SEK", vat));
+                    IO.println("--------------------------------");
+                    IO.println(String.format("TOTAL    : %.2f SEK", finalPrice));
+                    IO.println("--------------------------------");
+                }
             }
 
-            IO.println("---------------------------------------");
-        IO.println("              LexiCafe                 ");
-        IO.println("-------------------------------------  ");
-        IO.println("Subtotal: " + subtotalAllPrice + " SEK");
-        IO.println("Discount: " + discount + " SEK");
-        IO.println("Price after discount: " + priceAfterDiscount + " SEK");
-        IO.println("VAT (12%): " + vat + " SEK");
-        IO.println("------------------------------------------");
-        IO.println("Final total: " + finalPrice + " SEK");
-        IO.println("------------------------------------------");
-
-
+        }
     }
 }
 
+
+
+
+*/
 
