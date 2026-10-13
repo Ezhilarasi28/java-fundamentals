@@ -42,63 +42,103 @@ import java.util.Scanner;
 
 public class LexiCafeApp {
     static void main() {
-        Scanner username = new Scanner(System.in);  //create a scanner object to read user input
+        Scanner username = new Scanner(System.in);                    //create a scanner object to read user input
+        int customersServed = 0;                                       //Count customers
+        double totalRevenue = 0;                                        //store money from all customers
         //step1:welcome the customer and asking the name
+
         IO.println("***** Welcome to LexiCafe App *****");
-        IO.println("what is your name?");
-        String name = username.nextLine(); //store the entered name in a string variable
+        while (true)                                                    //reapt for the mutiple customers
+        {
+            IO.println("next Customer name(or 'done' to close):");
+            String name = username.nextLine();
+            if (name.trim().isEmpty())                                   //check the name is empty
+            {
+                IO.println("Enter Customer name:");
+                continue;
+            }
+            if(name.equalsIgnoreCase("done"))                  //check the cashier enter done
+            {
+                break;
+            }
+
+        //IO.println("what is your name?");
+        //String name = username.nextLine(); //store the entered name in a string variable
         IO.println("Hi  " + name + " !!Here is our menu!!");
         IO.println();
 
         //step2: display the cafe menu
-        displayMenu();//call the displaymenu() to show the items and prices
+        displayMenu();                                             //call the displaymenu() to show the items and prices
         //step3:get the item number
-        IO.println("Enter item number (1-5):"); //get the item from the customer 1 to 5
-        int itemNumber = username.nextInt(); //stored the selected number in itemNumber
-        if (itemNumber < 1 || itemNumber > 5) //check the condition item number is outside 1 to5
+        IO.println("Enter item number (1-5):");                      //get the item from the customer 1 to 5
+        int itemNumber = username.nextInt();                           //stored the selected number in itemNumber
+        if (itemNumber < 1 || itemNumber > 5)                          //check the condition item number is outside 1 to5
         {
             IO.println("Invalid input");
-
-            username.close();
-            return;//stop the main method
+            //clear the enter key
+            username.nextLine(); // username.close();
+            // return;  //stop the main method
+            continue;
         }
 
+
 //step4: get the quantity
-        IO.println("how many?"); //get the quantity
+        IO.println("how many?");                                             //get the quantity
         int quantity = username.nextInt();
+
+        //check the quantity is valid
         if (quantity <= 0) {
             IO.println("Invalid input");
-            username.close();
-            return;
+            username.nextLine();                                            //clear the enter key
+            // username.close();
+            // return;
+            //go to the next customer
+            continue;
         }
 
 //step5:check the loyalty membership
-        IO.print("loyalty member? (yes/no):"); //check the loyalty membership
+        IO.print("loyalty member? (yes/no):");                                     //check the loyalty membership
         String answer = username.next();
         boolean isMember = answer.equalsIgnoreCase("yes");//true means member.false means non member
+        username.nextLine();
 
 //step 6:find item name and price
         String itemName = getItemName(itemNumber); //call getitemname() using selected item number and stored the returned item name in the item name
         double unitPrice = getItemPrice(itemNumber);//call getitemprice() using selected item number and stored the returned item name in the item name
 
+
 //step 7:subtotal calculation
-        double subtotal = calculateSubtotal(unitPrice, quantity);//call calculate subtotal and formula:unit price * quantity
+        double subtotal = calculateSubtotal(unitPrice, quantity);              //call calculate subtotal and formula:unit price * quantity
 
 //step 8:calculate the discount
-        double discount = calculateDiscount(subtotal, isMember);//members get 15% and non-member get 10%
+        double discount = calculateDiscount(subtotal, isMember);             //members get 15% and non-member get 10%
 
 //step9:calculate price after discount
-        double priceAfterDiscount = calculatePriceAfterDiscount(subtotal, discount);//subtract the discount from subtotal using method
+        double priceAfterDiscount = calculatePriceAfterDiscount(subtotal, discount);           //subtract the discount from subtotal using method
 
 //step10:calculate the vat
 //cal the calculate vat to calculate 12%vat and vat is calculated after the discount
         double vat = calculateVAT(priceAfterDiscount);
 
 //step11:calculate the final total
-        double total = calculateTotal(priceAfterDiscount, vat);//add vat to the price after the discount
+        double total = calculateTotal(priceAfterDiscount, vat);                          //add vat to the price after the discount
+        //print customer receipt
         printReceipt(name, itemName, quantity, subtotal, discount, vat, total);
-        username.close();
-    }
+
+        //step12: count the customers
+        customersServed++;
+        //step-13 //add the customers bill daily revenue
+        totalRevenue = totalRevenue + total;
+    }  //loop end
+    //step-14 print end of day report
+    IO.println("-----------------------------");
+    IO.println("  End of the Report");
+    IO.println("-----------------------------");
+    IO.println("customers served:"+ customersServed);                                       //display the total customers
+    IO.println(String.format("Total revenue : %.2f sek",totalRevenue));
+    IO.println("---------------------------------");
+    username.close();
+}
 
     //method1:display cafe menu
 //used void bescause the method does not return a value
@@ -119,39 +159,31 @@ public class LexiCafeApp {
     //method2:item name
 //receives the selected item number and returns the item name as string
     static String getItemName(int itemNumber) {
-        switch (itemNumber) {
-            case 1:
-                return "Espresso";
-            case 2:
-                return "Cappuccino";
-            case 3:
-                return "Latte";
-            case 4:
-                return "Croissant";
-            case 5:
-                return "Sandwich";
-            default:
-                return "unknown";
+        return switch (itemNumber) {
+            case 1 ->"Espresso";
+            case 2 -> "Cappuccino";
+            case 3 ->"Latte";
+            case 4 -> "Croissant";
+            case 5->"Sandwich";
+            default-> "unknown";
 
-        }
+        };
     }
 
     //method3: item price
     static double getItemPrice(int itemNumber) {
-        switch (itemNumber) {
-            case 1:
-                return 25.00;
-            case 2:
-                return 35.00;
-            case 3:
-                return 45.00;
-            case 4:
-                return 55.00;
-            case 5:
-                return 60.00;
-            default:
-                return 0;
-        }
+       return switch (itemNumber) {
+            case 1 -> 25.00;
+
+            case 2 -> 35.00;
+
+            case 3 -> 45.00;
+
+            case 4 -> 55.00;
+
+            case 5 -> 60.00;
+            default -> 0;
+        };
     }
 
     //method4:calculate subtotal
