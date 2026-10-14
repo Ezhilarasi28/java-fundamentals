@@ -69,6 +69,7 @@ public class LexiCafeApp {
 
         //step2: display the cafe menu
         displayMenu();                                             //call the displaymenu() to show the items and prices
+            /*  challenge-1 multiple-customer old (version 1.1)
         //step3:get the item number
         IO.println("Enter item number (1-5):");                      //get the item from the customer 1 to 5
         int itemNumber = username.nextInt();                           //stored the selected number in itemNumber
@@ -80,8 +81,26 @@ public class LexiCafeApp {
             // return;  //stop the main method
             continue;
         }
+        */
+            // step-3 challenge-2 input validation and error handling -(version 1.2)
+int itemNumber;
+while (true) {
+    IO.println ("enter item number(1-5):");//check the input is not a whole number
+    if(!username.hasNextInt()){
+        IO.println("Invalid item number!");
+        username.next();
+        continue;
+    }
+    itemNumber = username.nextInt();
+    username.nextLine();
+    if (itemNumber >=1 && itemNumber <= 5) {
+        break;
+    }
+    IO.println("invalid item number");
 
+}
 
+/* challenge 1 multi-customer old (version 1.1)
 //step4: get the quantity
         IO.println("how many?");                                             //get the quantity
         int quantity = username.nextInt();
@@ -95,13 +114,47 @@ public class LexiCafeApp {
             //go to the next customer
             continue;
         }
-
+*/
+            //step-4 challenge -2 input validation and error handling(version 1.2)
+            //get the quantity
+            int quantity;
+            while(true) {
+                IO.println("How many?");
+                if(!username.hasNextInt()){
+                    IO.println("Invalid item number!");
+                    username.nextLine();
+                    continue;
+                }
+                quantity = username.nextInt();
+                username.nextLine();
+                if(quantity > 0) {
+                    break;
+                }
+                IO.println("invalid item number");
+            }
+            /* Challenge-1 multi customer old (version 1.1)
 //step5:check the loyalty membership
         IO.print("loyalty member? (yes/no):");                                     //check the loyalty membership
         String answer = username.next();
         boolean isMember = answer.equalsIgnoreCase("yes");//true means member.false means non member
         username.nextLine();
-
+*/
+//step5: challenge -2 loyalty membership validation(version 1.2)
+ boolean isMember;
+ while(true) {
+     IO.println("loyalty member? (yes/no):");
+     String answer = username.nextLine() .trim();
+     if(answer.equalsIgnoreCase("yes")) {
+         isMember =true;
+         break;
+     }else if(answer.equalsIgnoreCase("no")) {
+         isMember =false;
+         break;
+     }else
+     {
+         IO.println("Invalid input!");
+     }
+ }
 //step 6:find item name and price
         String itemName = getItemName(itemNumber); //call getitemname() using selected item number and stored the returned item name in the item name
         double unitPrice = getItemPrice(itemNumber);//call getitemprice() using selected item number and stored the returned item name in the item name
