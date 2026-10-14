@@ -33,7 +33,37 @@ Your application must:
 // TC01: Loyalty member, 2 lattes – 15% discount.
 // TC02: Non-member, 6 sandwiches – 10% discount.
 // TC03: Non-member, 1 espresso – No discount.
-// TC04: Non-member, order exactly 150 SEK – No discount.*/
+// TC04: Non-member, order exactly 150 SEK – No discount.
+
+
+/*## Optional Challenges
+
+        Once the core app works, try extending it:
+        - create a new branch for each challenge
+        - commit your work regularly
+        - merge your branch into the main branch when you're done
+
+        ### Challenge 1 – Serve Multiple Customers
+        Wrap the order flow in a loop. At the start of each round ask:
+        `"Next customer name (or 'done' to close): "`
+        When the cashier types `done`, stop the loop and print an end-of-day summary.
+
+        ```text
+        ==============================
+        END OF DAY REPORT
+        ==============================
+        Customers served : 3
+        Total revenue    : 437.28 SEK
+        ==============================*/
+
+
+// ### Challenge 2 – Input Validation & Error Handling
+//Guard every user input. If the cashier enters an invalid item number, a non-numeric value, or a quantity of zero or less, print a clear error message
+// and re-prompt instead of crashing.
+// Handle the loyalty membership field the same way — only `yes` or `no` are accepted.
+
+//**Think about it:** Where is the best place to put validation logic — inside `main`, in a dedicated helper method, or
+// somewhere else? What Java construct lets you catch unexpected input?*/
 
 
 package se.lexicon.lexicon.cafe;
@@ -68,7 +98,98 @@ public class LexiCafeApp {
         IO.println();
 
         //step2: display the cafe menu
-        displayMenu();                                             //call the displaymenu() to show the items and prices
+        displayMenu();
+
+
+        //challenge4 -version(1.4) loyalty membership validation
+
+            boolean isMember;
+            while(true) {
+                IO.println("loyalty member? (yes/no):");
+                String answer = username.nextLine() .trim();
+                if(answer.equalsIgnoreCase("yes")) {
+                    isMember =true;
+                    break;
+                }else if(answer.equalsIgnoreCase("no")) {
+                    isMember =false;
+                    break;
+                }else
+                {
+                    IO.println("Invalid input!");
+                }
+            }
+
+            //challenge 4-version1.4
+            //create one order for the customer
+            Order order =new Order();
+            order.customerName =name;
+            order.isMember = isMember;
+            //step3 item number(v1.4)
+            while(true)
+            {
+                IO.println("enter the item number(1-5)");
+                if(!username.hasNextInt()){
+                    IO.println("Invalid input!");
+                    username.nextLine();
+                    continue;
+                }
+                int itemNumber =username.nextInt();
+                username.nextLine();
+                if(itemNumber ==0){
+                    break;
+                }
+                if(itemNumber < 1 || itemNumber > 5) {
+                    IO.println("Invalid input!");
+                    continue;
+                }
+                //step2 v1.4 ask quantity
+                int quantity;
+                while(true){
+                    IO.println("How many?");
+                    if(!username.hasNextInt()){
+                        IO.println("Invalid input!");
+                        username.nextLine();
+                        continue;
+                    }
+                    quantity = username.nextInt();
+                    username.nextLine();
+                    if(quantity>0) {
+                        break;
+                    }
+                    IO.println("quantiy must be greater than o:");
+                }
+
+                //step3 v1.4 create LineItem object
+                LineItem item =new LineItem();
+                item.itemName =getItemName(itemNumber);
+                item.quantity =quantity;
+                item.unitPrice =getItemPrice(itemNumber);
+
+                //step4: order Arrylist
+                order.addItem(item);
+                IO.println(item.itemName + "added.");
+
+            }
+
+            //challenge2 v1.4
+            if(!order.items.isEmpty()) {
+                order.printReceipt();
+                customersServed++;
+                totalRevenue += order.calculateTotal();
+
+            }else {
+                IO.println("no item ordered");
+            }
+
+
+
+
+
+
+
+
+
+        //call the displaymenu() to show the items and prices
             /*  challenge-1 multiple-customer old (version 1.1)
         //step3:get the item number
         IO.println("Enter item number (1-5):");                      //get the item from the customer 1 to 5
@@ -83,7 +204,7 @@ public class LexiCafeApp {
         }
         */
             // step-3 challenge-2 input validation and error handling -(version 1.2)
-int itemNumber;
+/*int itemNumber;
 while (true) {
     IO.println ("enter item number(1-5):");//check the input is not a whole number
     if(!username.hasNextInt()){
@@ -117,7 +238,7 @@ while (true) {
 */
             //step-4 challenge -2 input validation and error handling(version 1.2)
             //get the quantity
-            int quantity;
+          /*  int quantity;
             while(true) {
                 IO.println("How many?");
                 if(!username.hasNextInt()){
@@ -131,7 +252,7 @@ while (true) {
                     break;
                 }
                 IO.println("invalid item number");
-            }
+            }   */
             /* Challenge-1 multi customer old (version 1.1)
 //step5:check the loyalty membership
         IO.print("loyalty member? (yes/no):");                                     //check the loyalty membership
@@ -140,6 +261,7 @@ while (true) {
         username.nextLine();
 */
 //step5: challenge -2 loyalty membership validation(version 1.2)
+ /*
  boolean isMember;
  while(true) {
      IO.println("loyalty member? (yes/no):");
@@ -155,35 +277,58 @@ while (true) {
          IO.println("Invalid input!");
      }
  }
+ */
 //step 6:find item name and price
-        String itemName = getItemName(itemNumber); //call getitemname() using selected item number and stored the returned item name in the item name
-        double unitPrice = getItemPrice(itemNumber);//call getitemprice() using selected item number and stored the returned item name in the item name
+       // String itemName = getItemName(itemNumber); //call getitemname() using selected item number and stored the returned item name in the item name
+       // double unitPrice = getItemPrice(itemNumber);//call getitemprice() using selected item number and stored the returned item name in the item name
 
+//challenge3 -create order object (version1.3)
+         /*   Order order = new Order();
 
+            order.customerName = name;
+            order.quantity = quantity;
+            order.itemName = itemName;
+            order.unitPrice = unitPrice;
+            order.isMember = isMember;*/
+
+/*
 //step 7:subtotal calculation
-        double subtotal = calculateSubtotal(unitPrice, quantity);              //call calculate subtotal and formula:unit price * quantity
+        //double subtotal = calculateSubtotal(unitPrice, quantity);              //call calculate subtotal and formula:unit price * quantity
+
 
 //step 8:calculate the discount
         double discount = calculateDiscount(subtotal, isMember);             //members get 15% and non-member get 10%
 
+
 //step9:calculate price after discount
         double priceAfterDiscount = calculatePriceAfterDiscount(subtotal, discount);           //subtract the discount from subtotal using method
+
 
 //step10:calculate the vat
 //cal the calculate vat to calculate 12%vat and vat is calculated after the discount
         double vat = calculateVAT(priceAfterDiscount);
 
-//step11:calculate the final total
+
+        //step11:calculate the final total
         double total = calculateTotal(priceAfterDiscount, vat);                          //add vat to the price after the discount
-        //print customer receipt
-        printReceipt(name, itemName, quantity, subtotal, discount, vat, total);
+
+            //print customer receipt
+
+            printReceipt(name, itemName, quantity, subtotal, discount, vat, total);
+*/
+            //new version 1.3
+           order.printReceipt();
 
         //step12: count the customers
         customersServed++;
+
+
         //step-13 //add the customers bill daily revenue
-        totalRevenue = totalRevenue + total;
+       totalRevenue = totalRevenue + order.calculateTotal(); //totalRevenue = totalRevenue + total;
     }  //loop end
-    //step-14 print end of day report
+
+
+        //step-14 print end of day report
     IO.println("-----------------------------");
     IO.println("  End of the Report");
     IO.println("-----------------------------");
@@ -241,14 +386,16 @@ while (true) {
 
     //method4:calculate subtotal
 //receives unit price and quantity and returns the price before discount and vat
-    static double calculateSubtotal(double unitPrice, int quantity) {
-        //formula:subtotal=unitprice * quantity
+   /* static double calculateSubtotal(double unitPrice, int quantity)
+    {
+        //formula:subtotal= unitprice * quantity
         return unitPrice * quantity;
-    }
+    }*/
 
     //method5: calculate discount
      //receives subtotal and membership status returns the discount amount in sek
-    static double calculateDiscount(double subtotal, boolean isMember) {
+   /* static double calculateDiscount(double subtotal, boolean isMember)
+    {
         //check the customer is the loyalty member
         if (isMember) {
 
@@ -261,26 +408,34 @@ while (true) {
         {
             return 0;
         }
-    }
-        //method:6 calculate price after discount
-        static double calculatePriceAfterDiscount ( double subtotal, double discount)
+    }*/
+
+    //method:6 calculate price after discount
+      /*  static double calculatePriceAfterDiscount ( double subtotal, double discount)
         {
             return subtotal - discount;
 
-        }
+        }*/
+
         //method7:calculate the vat
-        static double calculateVAT ( double priceAfterDiscount)
+       /* static double calculateVAT ( double priceAfterDiscount)
         {
             return priceAfterDiscount * 0.12;
-        }
+        }*/
+
+
         //method8: calculate final total
-        static double calculateTotal ( double priceAfterDiscount, double vat)
+      /*  static double calculateTotal ( double priceAfterDiscount, double vat)
         {
             return priceAfterDiscount + vat;
         }
-        //method:9 customer receipt print
+
+*/
+
+    /*    //method:9 customer receipt print
         static void printReceipt (String name, String itemName ,int quantity, double subtotal,
         double discount, double vat, double total)
+
         {
             // Display receipt heading
             IO.println("==============================");
@@ -301,6 +456,7 @@ while (true) {
             IO.println("   See you next time.");
             IO.println("----------------------------------");
         }
+        */
 }
 
 
